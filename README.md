@@ -103,3 +103,55 @@ git switch -c feat/#1-login
 ```
 
 예시: `feat: user API 구현`
+
+
+### 🟡 개발 시 사용 파일
+
+#### `pages/`
+
+하나의 완성된 화면 단위를 관리합니다.  
+페이지 이동 시 보여지는 화면은 이 폴더에 작성합니다.
+
+예시:
+- `LoginPage.jsx` : 로그인 화면
+- `SignupPage.jsx` : 회원가입 화면
+- `MainPage.jsx` : 메인 화면
+- `PostCreatePage.jsx` : 게시글 작성 화면
+- `PostDetailPage.jsx` : 게시글 상세 화면
+
+
+#### `components/`
+
+화면을 구성하는 작은 단위의 UI 컴포넌트를 관리합니다.  
+여러 페이지에서 반복해서 사용하는 UI나 분리해서 관리할 필요가 있는 UI를 작성합니다.
+
+예시:
+- `Header.jsx` : 상단 헤더
+- `Sidebar.jsx` : 사이드 메뉴
+- `PostCard.jsx` : 게시글 카드
+- `Button.jsx` : 공통 버튼
+
+
+#### `assets/`
+
+프로젝트에서 사용하는 이미지, 아이콘 등의 정적 파일을 관리합니다.
+
+예시:
+- `images/` : 로고, 프로필, 배경 등의 이미지
+- `icons/` : 메뉴, 버튼 등에 사용하는 아이콘
+
+
+#### `App.jsx`
+
+애플리케이션 전체의 최상위 컴포넌트입니다.  
+주로 페이지 라우팅 및 전체적인 화면 구조를 관리합니다.
+
+개별 페이지의 UI를 직접 작성하기보다는 `pages/`에 작성된 페이지들을 연결하는 역할로 사용합니다.
+
+
+#### `main.jsx`
+
+React 애플리케이션의 시작점(Entry Point)입니다.  
+`App.jsx`를 불러와 실제 HTML의 `root` 영역에 React 애플리케이션을 렌더링합니다.
+
+일반적인 화면 UI는 `main.jsx`에 직접 작성하지 않습니다.
