@@ -1,67 +1,122 @@
-import { useMemo, useRef, useState } from 'react'
-import { BarChart3, Bell, Bookmark, ChevronDown, ChevronRight, Clock3, FileText, Globe2, Hash, Heart, Home, Image, LogOut, Menu, MessageCircle, MoreHorizontal, Paperclip, PlusCircle, RefreshCw, Search, Send, Settings, User, Users, Video, X } from 'lucide-react'
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from './assets/vite.svg'
+import heroImg from './assets/hero.png'
 import './App.css'
 
-const starterPosts = [
-  { id: 1, author: '김기자', role: '기자', tone: 'blue', time: '34분 전', avatar: 'blue', content: '[단독] 김도현 대선 후보가 비공개 간담회에서 “청년 지원금은 대폭 줄여야 한다”고 발언한 영상이 공개됐습니다.\n해당 후보는 그동안 청년 복지 확대를 주요 공약으로 내세워 온 만큼, 발언을 둘러싼 논란이 커질 것으로 보입니다.', media: true, comments: 13, reposts: 30, likes: 224 },
-  { id: 2, author: '이송이', role: '일반 사용자', tone: 'green', time: '12분 전', avatar: 'green', content: '청년 표 달라고 할 땐 지원 늘린다더니 뒤에서는 “지원금 줄여야 한다”고 하네ㅋㅋ\n이게 진짜 본심이냐?', comments: 4, reposts: 5, likes: 2 },
-  { id: 3, author: '박민준', role: '일반 사용자', tone: 'gray', time: '8분 전', avatar: 'gray', content: '영상의 전체 맥락도 함께 확인해 봐야 할 것 같습니다. 짧게 편집된 부분만으로 판단하기에는 이르지 않을까요?', comments: 8, reposts: 3, likes: 17 },
-  { id: 4, author: '정하늘', role: '일반 사용자', tone: 'green', time: '5분 전', avatar: 'green', content: '', comments: 0, reposts: 0, likes: 0, empty: true },
-  { id: 5, author: '눈송이', role: '인플루언서', tone: 'blue', time: '3분 전', avatar: 'blue', content: '', comments: 0, reposts: 0, likes: 0, empty: true },
-  { id: 6, author: '최송이', role: '일반 사용자', tone: 'gray', time: '1분 전', avatar: 'gray', content: '', comments: 0, reposts: 0, likes: 0, empty: true },
-].map((post) => ({ ...post, liked: false, reposted: false, bookmarked: false }))
+function App() {
+  const [count, setCount] = useState(0)
 
-const nav = [[Home, '홈'], [Bell, '알림', 3], [MessageCircle, '채팅'], [User, '프로필'], [BarChart3, '대시보드'], [Settings, '설정']]
+  return (
+    <>
+      <section id="center">
+        <div className="hero">
+          <img src={heroImg} className="base" width="170" height="179" alt="" />
+          <img src={reactLogo} className="framework" alt="React logo" />
+          <img src={viteLogo} className="vite" alt="Vite logo" />
+        </div>
+        <div>
+          <h1>Get started</h1>
+          <p>
+            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+          </p>
+        </div>
+        <button
+          type="button"
+          className="counter"
+          onClick={() => setCount((count) => count + 1)}
+        >
+          Count is {count}
+        </button>
+      </section>
 
-function Avatar({ tone = 'blue', small = false }) {
-  const colors = { blue: 'bg-blue-200 text-blue-500', green: 'bg-green-200 text-green-600', gray: 'bg-slate-200 text-slate-600', dark: 'bg-slate-200 text-slate-900' }
-  return <div className={`${small ? 'size-8' : 'size-10'} ${colors[tone]} grid shrink-0 place-items-center rounded-full`}><User className="size-3/5" fill="currentColor" /></div>
+      <div className="ticks"></div>
+
+      <section id="next-steps">
+        <div id="docs">
+          <svg className="icon" role="presentation" aria-hidden="true">
+            <use href="/icons.svg#documentation-icon"></use>
+          </svg>
+          <h2>Documentation</h2>
+          <p>Your questions, answered</p>
+          <ul>
+            <li>
+              <a href="https://vite.dev/" target="_blank">
+                <img className="logo" src={viteLogo} alt="" />
+                Explore Vite
+              </a>
+            </li>
+            <li>
+              <a href="https://react.dev/" target="_blank">
+                <img className="button-icon" src={reactLogo} alt="" />
+                Learn more
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div id="social">
+          <svg className="icon" role="presentation" aria-hidden="true">
+            <use href="/icons.svg#social-icon"></use>
+          </svg>
+          <h2>Connect with us</h2>
+          <p>Join the Vite community</p>
+          <ul>
+            <li>
+              <a href="https://github.com/vitejs/vite" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#github-icon"></use>
+                </svg>
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="https://chat.vite.dev/" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#discord-icon"></use>
+                </svg>
+                Discord
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/vite_js" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#x-icon"></use>
+                </svg>
+                X.com
+              </a>
+            </li>
+            <li>
+              <a href="https://bsky.app/profile/vite.dev" target="_blank">
+                <svg
+                  className="button-icon"
+                  role="presentation"
+                  aria-hidden="true"
+                >
+                  <use href="/icons.svg#bluesky-icon"></use>
+                </svg>
+                Bluesky
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <div className="ticks"></div>
+      <section id="spacer"></section>
+    </>
+  )
 }
 
-function Logo() {
-  return <div className="flex items-center gap-2.5 font-bold leading-[1.05]"><div className="relative size-11 rounded-full border border-slate-400">{[0, 60, 120].map((d) => <span key={d} className="absolute left-1/2 top-1/2 h-px w-10 bg-slate-700" style={{ transform: `translate(-50%,-50%) rotate(${d}deg)` }} />)}<span className="absolute inset-[9px] rounded-full border border-slate-500" /></div><span>FakeNews<br />Simulator</span></div>
-}
-
-function Header({ query, setQuery }) {
-  const [accountOpen, setAccountOpen] = useState(false)
-  return <header className="sticky top-0 z-30 flex h-[78px] items-center border-b border-slate-200 bg-white px-4 sm:px-7"><div className="hidden w-[208px] sm:block"><Logo /></div><button aria-label="메뉴" className="mr-3 rounded-lg p-2 hover:bg-slate-100"><Menu /></button><label className="flex h-11 max-w-[560px] flex-1 items-center gap-3 rounded-2xl border border-slate-300 px-4 focus-within:border-slate-500"><Search className="size-5 text-slate-400" /><input value={query} onChange={(e) => setQuery(e.target.value)} className="w-full bg-transparent text-sm outline-none" placeholder="검색어를 입력하세요" />{query && <button onClick={() => setQuery('')} aria-label="검색어 지우기"><X className="size-4" /></button>}</label><div className="relative ml-auto pl-4"><button onClick={() => setAccountOpen((open) => !open)} aria-expanded={accountOpen} className="flex items-center gap-3 rounded-xl p-1.5 hover:bg-slate-100"><span className="relative"><Bell className="size-6" /><b className="absolute -right-1.5 -top-1.5 grid size-4 place-items-center rounded-full bg-black text-[10px] text-white">3</b></span><Avatar tone="dark" /><span className="hidden text-left text-xs md:block"><b className="block text-sm">김송이</b><span className="text-slate-500">일반 사용자</span></span><ChevronDown className={`hidden size-4 text-slate-400 transition-transform md:block ${accountOpen ? 'rotate-180' : ''}`} /></button>{accountOpen && <div className="absolute right-0 top-14 w-48 rounded-xl border border-slate-200 bg-white p-2 text-sm shadow-lg"><button className="w-full rounded-lg px-3 py-2 text-left hover:bg-slate-100">내 프로필</button><button className="w-full rounded-lg px-3 py-2 text-left hover:bg-slate-100">역할 변경</button><button className="w-full rounded-lg px-3 py-2 text-left text-red-600 hover:bg-red-50">로그아웃</button></div>}</div></header>
-}
-
-function Sidebar() {
-  return <aside className="sticky top-[78px] hidden h-[calc(100vh-78px)] w-[218px] shrink-0 flex-col border-r border-slate-200 bg-white px-4 py-5 lg:flex"><nav className="space-y-2">{nav.map(([Icon, label, count], i) => <button key={label} className={`flex w-full items-center gap-5 rounded-lg px-4 py-3 text-sm ${i === 0 ? 'bg-slate-200 font-semibold' : 'hover:bg-slate-100'}`}><Icon className="size-5" />{label}{count && <b className="ml-auto grid size-5 place-items-center rounded-full bg-black text-xs text-white">{count}</b>}</button>)}</nav><div className="mt-auto rounded-2xl border border-slate-300 p-4 text-xs"><p className="mb-2 text-slate-500">현재 역할</p><div className="mb-4 flex items-center gap-2"><Avatar tone="dark" small /><b className="text-sm">일반 사용자</b></div><p className="mb-4 leading-relaxed">피드를 탐색하고<br />게시글에 반응하며<br />정보 확산에 영향을 미칩니다</p><button className="w-full rounded-xl border border-slate-300 py-2.5 font-semibold">역할 변경</button></div><button className="mt-3 flex items-center justify-center gap-3 rounded-xl bg-black py-3 text-sm text-white"><LogOut className="size-5" />로그아웃</button></aside>
-}
-
-function Simulation() {
-  return <section className="rounded-2xl border border-slate-300 bg-white px-5 py-5 sm:px-7"><div className="mb-4 flex items-center gap-3 text-sm"><span className="size-3 rounded-full bg-green-500" /><b className="font-medium text-green-600">SIMULATION RUNNING</b><span className="text-slate-400">· 12 : 23</span></div><div className="grid grid-cols-2 gap-4 sm:grid-cols-4"><div><p className="text-sm">진행 상황</p><p className="text-xl">STEP 12 / 30</p><div className="mt-2 h-2 rounded bg-slate-200"><div className="h-full w-[44%] rounded bg-green-500" /></div></div>{[[FileText, '게시글 수', '328'], [RefreshCw, '리포스트 수', '821'], [Users, '활성 에이전트', '20']].map(([Icon, label, value]) => <div key={label} className="border-l border-slate-200 text-center"><Icon className="mx-auto mb-1 size-5" /><p className="text-xs">{label}</p><b className="text-lg font-medium">{value}</b></div>)}</div></section>
-}
-
-function Composer({ onSubmit }) {
-  const [text, setText] = useState(''); const [publicity, setPublicity] = useState('전체 공개'); const [file, setFile] = useState(null); const fileRef = useRef(null)
-  const submit = () => { if (!text.trim()) return; onSubmit(text.trim(), file); setText(''); setFile(null) }
-  return <section className="rounded-2xl border border-slate-300 bg-white p-5"><div className="flex gap-4"><Avatar tone="dark" /><textarea value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => (e.ctrlKey || e.metaKey) && e.key === 'Enter' && submit()} rows="2" maxLength="500" placeholder="무슨 일이 있었나요?" className="min-h-16 w-full resize-none bg-transparent pt-2 outline-none placeholder:text-slate-400" /></div>{file && <div className="ml-14 mt-2 flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-2 text-xs"><Paperclip className="size-4" /><span className="truncate">{file.name}</span><button className="ml-auto" onClick={() => setFile(null)}><X className="size-4" /></button></div>}<div className="mt-3 flex items-center gap-1 pl-12 text-slate-500"><input ref={fileRef} type="file" accept="image/*,video/*" className="hidden" onChange={(e) => setFile(e.target.files?.[0] || null)} /><button onClick={() => fileRef.current?.click()} className="icon-button"><Image /></button><button onClick={() => fileRef.current?.click()} className="icon-button"><Video /></button><button onClick={() => setText((v) => `${v}${v ? ' ' : ''}#`)} className="icon-button"><Hash /></button><button onClick={() => setText((v) => `${v}${v ? '\n' : ''}📊 투표: `)} className="icon-button"><BarChart3 /></button><div className="ml-auto flex gap-2"><button onClick={() => setPublicity((v) => v === '전체 공개' ? '팔로워 공개' : '전체 공개')} className="hidden items-center gap-1 rounded-lg border border-slate-300 px-3 py-2 text-xs sm:flex"><Globe2 className="size-4" />{publicity}<ChevronDown className="size-3" /></button><button onClick={submit} disabled={!text.trim()} className="flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-sm text-white disabled:opacity-40"><Send className="size-4" />게시하기</button></div></div></section>
-}
-
-function NewsMedia() {
-  return <div className="news-media mt-4 overflow-hidden rounded-sm text-white"><div className="relative flex h-full items-center justify-center bg-[radial-gradient(circle_at_75%_30%,#5fd4d0_0,#2fa7a8_34%,#177d87_100%)]"><div className="absolute inset-0 opacity-20 [background-image:linear-gradient(25deg,transparent_45%,white_46%,transparent_48%)] [background-size:70px_70px]" /><div className="relative -translate-y-4 text-center"><p className="skew-x-[-8deg] bg-red-600 px-6 py-2 text-3xl font-black italic shadow-lg">BREAKING</p><p className="mt-2 text-4xl font-black text-slate-900">NEWS</p></div><div className="absolute bottom-0 inset-x-0 bg-slate-900/90 px-5 py-3 text-center text-xs font-bold tracking-[.25em]">SPECIAL REPORT · LIVE UPDATE</div></div></div>
-}
-
-function Post({ post, toggle }) {
-  return <article className="rounded-2xl border border-slate-300 bg-white p-5 sm:p-7"><div className="flex gap-4"><Avatar tone={post.avatar} /><div className="min-w-0 flex-1"><div className="flex items-center gap-2"><b className="text-lg">{post.author}</b><span className={`role role-${post.tone}`}>{post.role}</span><span className="text-xs text-slate-400">· {post.time}</span><button aria-label={`${post.author} 북마크`} onClick={() => toggle(post.id, 'bookmarked')} className={`ml-auto ${post.bookmarked ? 'text-blue-600' : 'text-slate-600'}`}><Bookmark className="size-6" fill={post.bookmarked ? 'currentColor' : 'none'} /></button><button aria-label={`${post.author} 더 보기`}><MoreHorizontal /></button></div><p className={`${post.empty ? 'min-h-16' : 'mt-3'} whitespace-pre-line text-[15px] leading-[1.45]`}>{post.content}</p>{post.attachment && <p className="mt-3 rounded-lg bg-slate-100 p-3 text-xs">📎 {post.attachment}</p>}{post.media && <NewsMedia />}<div className="mt-5 flex max-w-[560px] items-center justify-between text-slate-700"><button className="action" aria-label={`${post.author} 댓글 ${post.comments}`}><MessageCircle /><span>{post.comments}</span></button><button onClick={() => toggle(post.id, 'reposted')} className={`action ${post.reposted ? 'text-green-600' : ''}`} aria-label={`${post.author} 리포스트 ${post.reposts}`}><RefreshCw /><span>{post.reposts}</span></button><button onClick={() => toggle(post.id, 'liked')} className={`action ${post.liked ? 'text-red-500' : ''}`} aria-label={`${post.author} 좋아요 ${post.likes}`}><Heart fill={post.liked ? 'currentColor' : 'none'} /><span>{post.likes}</span></button><button className="action" aria-label={`${post.author} 반응 추가`}><PlusCircle /></button></div></div></div></article>
-}
-
-function Panel({ title, meta, expanded, onArrow, children, extra }) { return <section className="rounded-2xl border border-slate-300 bg-white p-4"><div className="mb-2 flex items-center border-b border-slate-200 pb-2"><b className="text-sm">{title}</b>{meta ? <span className="ml-auto text-[9px] text-slate-400">{meta}</span> : <button onClick={onArrow} aria-label={`${title} ${expanded ? '접기' : '더 보기'}`} className="ml-auto rounded-md p-1 hover:bg-slate-100"><ChevronRight className={`size-4 transition-transform ${expanded ? 'rotate-90' : ''}`} /></button>}</div>{children}{expanded && <div className="mt-2 border-t border-slate-100 pt-2 text-[10px] text-slate-500">{extra}</div>}</section> }
-function RightPanel({ onSearch }) {
-  const trends = [['청년 지원금', '120 posts'], ['공약', '102 posts'], ['김도현', '72 posts'], ['대선후보', '15 posts']]
-  const [expanded, setExpanded] = useState({}); const [read, setRead] = useState([])
-  const flip = (key) => setExpanded((value) => ({ ...value, [key]: !value[key] }))
-  const notices = [[Heart, '눈송이님 외 17명이 회원님의 게시글을 좋아합니다.'], [RefreshCw, '하늘님 외 19명이 게시글을 리포스트했습니다.'], [MessageCircle, '최송이님이 댓글을 남겼습니다.']]
-  return <aside className="hidden w-[230px] shrink-0 space-y-3 xl:block"><Panel title="실시간 현황" meta="(Step 12 기준)">{[[FileText, '전체 게시글 수', '328'], [RefreshCw, '전체 리포스트 수', '821'], [Users, '활성 에이전트 수', '20'], [Clock3, '현재 시간', '00 : 12 : 23']].map(([Icon, l, v]) => <div className="flex items-center gap-2 py-1.5 text-xs" key={l}><Icon className="size-5" />{l}<b className="ml-auto">{v}</b></div>)}</Panel><Panel title="현재 영향력 순위" expanded={expanded.rank} onArrow={() => flip('rank')} extra="전체 순위 화면은 추후 라우터 연결 시 이동할 수 있습니다.">{[['김기자', '12,540'], ['눈송이', '9,880'], ['최송이', '7,940']].map((x, i) => <button onClick={() => onSearch(x[0])} className="flex w-full items-center gap-2 rounded-lg py-2 text-xs hover:bg-slate-50" key={x[0]}><b>{i + 1}</b><Avatar small /><b>{x[0]}</b><span className="ml-auto text-slate-400">{x[1]}</span></button>)}</Panel><Panel title="실시간 트렌드" expanded={expanded.trend} onArrow={() => flip('trend')} extra="검색어를 누르면 해당 키워드가 포함된 피드만 표시됩니다.">{trends.map(([l, v]) => <button onClick={() => onSearch(l)} key={l} className="flex w-full rounded-lg py-1.5 text-xs hover:bg-slate-50"><span>{l}</span><span className="ml-auto text-slate-400">{v}</span></button>)}</Panel><Panel title="최근 알림" expanded={expanded.notice} onArrow={() => flip('notice')} extra="알림을 누르면 읽음 상태로 표시됩니다.">{notices.map(([Icon, text], i) => <button onClick={() => setRead((items) => items.includes(i) ? items : [...items, i])} key={text} className={`flex w-full gap-2 border-b border-slate-100 py-2 text-left last:border-0 ${read.includes(i) ? 'opacity-40' : 'hover:bg-slate-50'}`}><Icon className="size-5 shrink-0" /><p className="text-[10px] leading-tight">{text}</p></button>)}</Panel></aside>
-}
-
-export default function App() {
-  const [query, setQuery] = useState(''); const [tab, setTab] = useState('추천'); const [posts, setPosts] = useState(starterPosts)
-  const filtered = useMemo(() => { const keyword = query.toLowerCase().replaceAll(' ', ''); return posts.filter((p) => `${p.author}${p.content}`.toLowerCase().replaceAll(' ', '').includes(keyword)) }, [posts, query])
-  const addPost = (content, file) => setPosts((p) => [{ id: Date.now(), author: '김송이', role: '일반 사용자', tone: 'green', time: '방금 전', avatar: 'green', content, attachment: file?.name, comments: 0, reposts: 0, likes: 0, liked: false, reposted: false, bookmarked: false }, ...p])
-  const toggle = (id, key) => setPosts((list) => list.map((p) => p.id !== id ? p : { ...p, [key]: !p[key], ...(key === 'liked' && { likes: p.likes + (p.liked ? -1 : 1) }), ...(key === 'reposted' && { reposts: p.reposts + (p.reposted ? -1 : 1) }) }))
-  return <div className="min-h-screen bg-slate-100"><Header query={query} setQuery={setQuery} /><div className="mx-auto flex max-w-[1400px]"><Sidebar /><main className="min-w-0 flex-1 p-3 sm:p-4"><div className="mx-auto flex max-w-[1090px] items-start gap-3"><div className="min-w-0 flex-1 space-y-4"><Simulation /><Composer onSubmit={addPost} /><div className="flex h-11 items-end gap-4 px-2 sm:gap-8 sm:px-4">{['추천', '최신', '팔로잉', '인기'].map((item) => <button key={item} onClick={() => setTab(item)} className={`h-full border-b-2 px-2 text-lg ${tab === item ? 'border-black font-bold' : 'border-transparent text-slate-400'}`}>{item}</button>)}</div>{filtered.length ? filtered.map((post) => <Post key={post.id} post={post} toggle={toggle} />) : <div className="rounded-2xl border bg-white p-16 text-center text-slate-400">검색 결과가 없습니다.</div>}</div><RightPanel onSearch={setQuery} /></div></main></div></div>
-}
+export default App
