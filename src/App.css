@@ -17,3 +17,11 @@ button, input, textarea { font: inherit; }
 .action svg { width: 25px; height: 25px; }
 .news-media { height: clamp(250px, 38vw, 450px); }
 @media (max-width: 640px) { .news-media { height: 230px; } .action { gap: 5px; } }
+
+.profile-cover {
+  background-color: #e8edef;
+  background-image: radial-gradient(circle at 85% 125%, transparent 0 70px, #ffffff80 71px 72px, transparent 73px 105px, #ffffff80 106px 107px, transparent 108px 140px, #ffffff80 141px 142px, transparent 143px), linear-gradient(110deg, #e9edf2, #e3eee8);
+}
+.profile-dialog { margin: auto; width: min(460px, calc(100% - 32px)); max-height: calc(100dvh - 32px); }
+.profile-dialog::backdrop { background: rgb(15 23 42 / 45%); backdrop-filter: blur(3px); }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid #475569; outline-offset: 3px; }
