@@ -29,7 +29,7 @@ export default function ProfilePage({ profile, onSave, posts, query, onHome, ren
   return <>
     <div className="flex items-center gap-3 px-1 py-2">
       <button onClick={onHome} aria-label="홈 피드로 돌아가기" className="rounded-full p-2 hover:bg-slate-200"><ArrowLeft className="size-5" /></button>
-      <div><h1 className="text-xl font-bold">내 프로필</h1><p className="mt-0.5 text-xs text-slate-500">나의 이야기와 활동을 한곳에서</p></div>
+      <div><h1 className="text-xl font-bold">내 프로필</h1></div>
     </div>
 
     <section className="overflow-hidden rounded-2xl border border-slate-300 bg-white">
@@ -45,7 +45,6 @@ export default function ProfilePage({ profile, onSave, posts, query, onHome, ren
         <div className="mt-4 flex flex-wrap items-center gap-2.5"><h2 className="break-all text-2xl font-bold">{profile.name}</h2><span className="role role-green">일반 사용자</span></div>
         <p className="mt-1 text-sm text-slate-400">@songyi</p>
         <p className="mt-4 whitespace-pre-line break-words text-sm leading-7 text-slate-600">{profile.bio || '아직 소개가 없습니다. 나를 소개하는 한마디를 남겨보세요.'}</p>
-        <div className="mt-5 flex flex-wrap gap-2">{['미디어 리터러시', '다양한 시선', '함께 생각하기'].map((tag) => <span key={tag} className="rounded-lg bg-slate-100 px-3 py-1.5 text-xs text-slate-500"># {tag}</span>)}</div>
         <div className="mt-6 grid grid-cols-3 divide-x divide-slate-200 border-t border-slate-200 pt-5 text-center">
           {[[ownPosts.length, '작성한 게시글'], [ownPosts.reduce((sum, post) => sum + post.likes, 0), '받은 좋아요'], [collections.리포스트.length, '내 리포스트']].map(([value, label]) => <div key={label}><b className="text-2xl font-semibold">{value}</b><p className="mt-1 text-xs text-slate-500">{label}</p></div>)}
         </div>

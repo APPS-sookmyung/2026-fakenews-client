@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import fakenewsLogo from '../assets/fakenews_logo.png';
 
-export default function PostCreatePage() {
+export default function PostCreatePage({ profile, onSubmit, onHome, draft, setDraft, editing = false }) {
   // 1. 상태 관리
-  const [authorName] = useState('김기자');
-  const [authorRole] = useState('기자');
-  const [postType, setPostType] = useState('뉴스');
-  const [visibility, setVisibility] = useState('전체 공개');
-  const [content, setContent] = useState('');
+  const authorName = profile.name;
+  const authorRole = '일반 사용자';
+  const { postType, visibility, content, hashtags, attachments: mediaList } = draft;
+  const setField = (key, value) => setDraft((previous) => ({ ...previous, [key]: value }));
+  const setPostType = (value) => setField('postType', value);
+  const setVisibility = (value) => setField('visibility', value);
+  const setContent = (value) => setField('content', value);
+  const setMediaList = (value) => setField('attachments', value);
+  const setHashtags = (value) => setField('hashtags', value);
 
   // 2. 게시글 타입 드롭다운 제어
   const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
@@ -22,24 +25,10 @@ export default function PostCreatePage() {
   ];
 
   // 3. 첨부 미디어 목록
-  const [mediaList, setMediaList] = useState([
-    {
-      id: 1,
-      type: 'image',
-      url: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=400',
-      name: '국회의사당'
-    },
-    {
-      id: 2,
-      type: 'video',
-      url: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400',
-      name: '현장 영상',
-      duration: '01:12'
-    }
-  ]);
+
 
   // 4. 해시태그 목록
-  const [hashtags, setHashtags] = useState(['건강검수제', '정부정책', '단독보도', '생활감시']);
+
 
   // 5. 모달 상태
   const [activeModal, setActiveModal] = useState(null);
@@ -79,137 +68,16 @@ export default function PostCreatePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F0F0] flex flex-col font-sans text-[#33363F]">
-      
-      {/* ================= 1. 상단 글로벌 헤더 (Figma: rectangle-1) ================= */}
-      <header className="h-[72px] bg-white border-b border-[rgba(0,0,0,0.2)] px-8 flex items-center justify-between sticky top-0 z-30">
-        {/* 좌측 로고 */}
-        <div className="flex items-center w-52">
-            <img 
-                src={fakenewsLogo} 
-                alt="FakeNews Simulator Logo" 
-                className="h-28 w-auto object-contain cursor-pointer -ml-1"
-            />
-        </div>
-
-        {/* 중앙 메뉴 버튼 + 검색창 (Figma: menu + rectangle-9) */}
-        <div className="flex-1 max-w-[620px] flex items-center gap-4 mx-6">
-          <button type="button" className="text-[#33363F] p-1 cursor-pointer">
-            <svg className="w-7 h-7" viewBox="0 0 60 60" fill="none">
-              <path d="M12.5 17.5H47.5" stroke="#33363F" strokeWidth="4" strokeLinecap="round"/>
-              <path d="M12.5 30H47.5" stroke="#33363F" strokeWidth="4" strokeLinecap="round"/>
-              <path d="M12.5 42.5H47.5" stroke="#33363F" strokeWidth="4" strokeLinecap="round"/>
-            </svg>
-          </button>
-          <div className="flex-1">
-            <input
-              type="text"
-              placeholder=""
-              className="w-full h-11 bg-white border border-[rgba(0,0,0,0.32)] rounded-[19px] px-4 text-sm focus:outline-none focus:border-[#33363F]"
-            />
-          </div>
-        </div>
-
-        {/* 우측 알림 + 프로필 (Figma: bell-pin1 + user-cicrle-duotone0 + div7/div8) */}
-        <div className="flex items-center gap-5">
-          <button type="button" className="cursor-pointer">
-            <svg className="w-7 h-7" viewBox="0 0 42 42" fill="none">
-              <path d="M20.55 3.3C21.99 3.3 22.88 3.3 23.67 3.42C25.19 3.67 26.6 4.28 27.79 5.16C26.96 5.74 26.26 6.51 25.78 7.41C25.01 6.9 24.13 6.54 23.19 6.38C22.7 6.3 22.1 6.3 20.55 6.3C19 6.3 18.4 6.3 17.91 6.38C15.42 6.79 13.38 8.61 12.7 11.05L11.88 17.63C11.74 18.93 11.65 19.75 11.43 20.54C11.14 21.39 10.41 22.87 9.74 23.99L7.9 27.04C7.73 27.33 7.58 27.58 7.46 27.79H32.77C33.11 27.79 33.39 27.8 33.64 27.79C33.52 27.58 33.37 27.33 33.2 27.04L31.36 23.99C30.69 22.87 29.96 21.39 29.67 20.54C29.45 19.74 29.22 17.63 29.09 16.54C29.84 16.83 30.65 17 31.5 17C31.72 17 32.16 16.97 32.2 17.3C32.35 18.69 32.56 19.72 32.76 20.3L35.77 25.5C36.22 26.13 36.74 27.27 36.71 29.53C36.22 30.4 34.79 30.72 32.77 30.8H8.33C7.6 30.8 5.74 30.63 4.39 29.53C3.9 28.66 4.36 27.27 4.58 26.74L7.17 22.44C7.89 21.24 8.35 20.3 8.54 19.72L9.34 13.33C9.81 10.24 13.78 4.02 17.43 3.42C18.22 3.3 19.11 3.3 20.55 3.3Z" fill="#33363F"/>
-              <path d="M15.93 30.91C16.23 32.59 16.89 34.07 17.8 35.12C18.72 36.18 19.84 36.75 21 36.75C22.16 36.75 23.28 36.18 24.2 35.12C25.11 34.07 25.77 32.59 26.07 30.91" stroke="#33363F" strokeWidth="3" strokeLinecap="round"/>
-              <circle cx="31.5" cy="10.5" r="4" fill="#33363F"/>
-            </svg>
-          </button>
-
-          <div className="flex items-center gap-3">
-            <svg className="w-11 h-11" viewBox="0 0 60 60" fill="none">
-              <circle cx="30" cy="30" r="25" fill="#7E869E" fillOpacity="0.25"/>
-              <circle cx="30" cy="23" r="9" fill="#222222"/>
-              <path d="M30 35C36.6 35 42.2 38.5 44.6 43.4C41.7 46 38.1 47.7 34 48.1C33.1 48.2 30 48.2 30 48.2C27.9 48.2 26.8 48.2 26 48.1C21.9 47.7 18.3 46 15.4 43.4C17.8 38.5 23.4 35 30 35Z" fill="#222222"/>
-            </svg>
-            <div className="flex flex-col text-left">
-              <span className="text-[14px] font-bold text-black leading-tight">김솔이</span>
-              <span className="text-[12px] text-[#7D8891]">일반 사용자</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* ================= 2. 중앙 레이아웃 (사이드바 + 메인 카드) ================= */}
-      <div className="flex flex-1 w-full">
-        
-        {/* 좌측 사이드바 (Figma: rectangle-2) */}
-        <aside className="w-[224px] bg-white border-r border-[rgba(0,0,0,0.32)] py-6 flex flex-col gap-3 shrink-0">
-          {/* 홈 (Active: rectangle-4170) */}
-          <div className="mx-2 px-6 py-3.5 bg-[#E4E4E4] rounded-[10px] flex items-center gap-4 cursor-pointer">
-            <svg className="w-6 h-6" viewBox="0 0 35 35" fill="none">
-              <path d="M7.29 18.61C7.29 16.63 7.29 15.64 7.69 14.77C8.09 13.9 8.84 13.25 10.35 11.96L11.81 10.71C14.52 8.39 15.88 7.22 17.5 7.22C19.12 7.22 20.48 8.39 23.19 10.71L24.65 11.96C26.16 13.25 26.91 13.9 27.31 14.77C27.71 15.64 27.71 16.63 27.71 18.61V24.79C27.71 27.54 27.71 28.92 26.85 29.77C26 30.63 24.63 30.63 21.88 30.63H13.13C10.38 30.63 9 30.63 8.15 29.77C7.29 28.92 7.29 27.54 7.29 24.79V18.61Z" stroke="#33363F" strokeWidth="2.8"/>
-            </svg>
-            <span className="text-[17px] font-bold text-black">홈</span>
-          </div>
-
-          {/* 알림 (Figma: bell-pin + ellipse-50 + _3) */}
-          <div className="px-8 py-3 flex items-center justify-between hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="flex items-center gap-4">
-              <svg className="w-6 h-6" viewBox="0 0 35 35" fill="none">
-                <path d="M17.38 2.5C19.29 2.53 21.08 3.12 22.56 4.12C21.77 4.75 21.15 5.58 20.76 6.53C19.77 5.89 18.6 5.52 17.34 5.5H16.91C13.66 5.54 10.95 7.98 10.54 11.2L10.15 14.72C10.06 15.52 10.01 16.03 9.9 16.53C9.75 17.22 9.52 17.89 9.22 18.52C9.01 18.99 8.74 19.42 8.33 20.12L7.1 22.16H26.72L25.92 20.12C25.5 19.42 25.24 18.99 25.02 18.52C24.73 17.89 24.5 17.22 24.35 16.53L24.04 14.24C24.73 14.52 25.47 14.67 26.25 14.67L26.77 11.62C24.56 11.58 23.33 10.31 23.33 8.75C23.33 7.67 23.92 6.73 24.8 6.22C25.8 7.52 26.47 9.1 26.68 10.82L26.71 11.08C27.18 15.31 27.28 15.89 27.74 17.25L29.72 20.62C30.69 22.39 30.66 24.65 28.73 25.84C28.17 25.92 27.45 25.92 26.72 25.92H7.53C6.8 25.92 6.08 25.92 5.51 25.84C4.08 25.51 3.59 24.65 3.56 22.39L4.53 20.62C5.76 18.57 6.51 17.25 6.97 15.89L7.54 11.08C8.15 6.12 12.12 2.56 16.87 2.5H17.38Z" fill="#33363F"/>
-                <path d="M13.27 25.76C13.52 27.16 14.07 28.39 14.84 29.27C15.6 30.15 16.54 30.63 17.5 30.63C18.46 30.63 19.4 30.15 20.16 29.27C20.93 28.39 21.48 27.16 21.73 25.76" stroke="#33363F" strokeWidth="2.5" strokeLinecap="round"/>
-                <circle cx="26.25" cy="8.75" r="3.4" fill="#33363F"/>
-              </svg>
-              <span className="text-[17px] text-black">알림</span>
-            </div>
-            <span className="w-6 h-6 bg-black text-white text-[12px] font-bold rounded-full flex items-center justify-center">
-              3
-            </span>
-          </div>
-
-          {/* 채팅 (Figma: chat-alt-2) */}
-          <div className="px-8 py-3 flex items-center gap-4 hover:bg-gray-50 rounded-xl cursor-pointer">
-            <svg className="w-6 h-6" viewBox="0 0 35 35" fill="none">
-              <path d="M27.35 8.59C28.33 10.06 28.33 12.11 28.33 16.21C28.33 20.3 28.33 22.35 27.35 23.82C26.92 24.46 26.38 25.01 25.74 25.43C24.46 26.29 22.73 26.4 19.58 26.41V26.42L17.97 29.64C17.43 30.72 15.9 30.72 15.36 29.64L13.75 26.42V26.41C10.6 26.4 8.88 26.29 7.59 25.43C6.96 25.01 6.41 24.46 5.98 23.82C5 22.35 5 20.3 5 16.21C5 12.11 5 10.06 5.98 8.59C6.41 7.96 6.96 7.41 7.59 6.98C9.06 6 11.11 6 15.21 6H18.13C22.22 6 24.27 6 25.74 6.98C26.38 7.41 26.92 7.96 27.35 8.59Z" stroke="#33363F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M13.13 13.13H21.88" stroke="#33363F" strokeWidth="2.5" strokeLinecap="round"/>
-              <path d="M13.13 18.96H17.5" stroke="#33363F" strokeWidth="2.5" strokeLinecap="round"/>
-            </svg>
-            <span className="text-[17px] text-black">채팅</span>
-          </div>
-
-          {/* 프로필 (Figma: user-alt) */}
-          <div className="px-8 py-3 flex items-center gap-4 hover:bg-gray-50 rounded-xl cursor-pointer">
-            <svg className="w-6 h-6" viewBox="0 0 35 35" fill="none">
-              <circle cx="17.5" cy="10.2" r="5.8" stroke="#33363F" strokeWidth="2.5" strokeLinecap="round"/>
-              <path d="M8.37 24.67C9.28 21.95 11.98 20.42 14.85 20.42H20.15C23.02 20.42 25.72 21.95 26.63 24.67C27.12 26.14 27.55 27.86 27.67 29.63C27.71 30.18 27.26 30.62 26.71 30.62H8.29C7.74 30.62 7.29 30.18 7.33 29.63C7.45 27.86 7.88 26.14 8.37 24.67Z" stroke="#33363F" strokeWidth="2.5" strokeLinecap="round"/>
-            </svg>
-            <span className="text-[17px] text-black">프로필</span>
-          </div>
-
-          {/* 대시보드 (Figma: stat) */}
-          <div className="px-8 py-3 flex items-center gap-4 hover:bg-gray-50 rounded-xl cursor-pointer">
-            <div className="w-6 h-6 flex items-end justify-between p-0.5 border border-[#33363F] rounded-xs">
-              <div className="w-1.5 h-3 bg-[#33363F]" />
-              <div className="w-1.5 h-2 bg-[#33363F]" />
-              <div className="w-1.5 h-4 bg-[#33363F]" />
-            </div>
-            <span className="text-[17px] text-black">대시보드</span>
-          </div>
-
-          {/* 설정 (Figma: setting-line) */}
-          <div className="px-8 py-3 flex items-center gap-4 hover:bg-gray-50 rounded-xl cursor-pointer">
-            <svg className="w-6 h-6" viewBox="0 0 35 35" fill="none">
-              <circle cx="17.5" cy="17.5" r="5" stroke="#33363F" strokeWidth="2.5"/>
-              <path d="M17.5 3V6M17.5 29V32M3 17.5H6M29 17.5H32M7.2 7.2L9.3 9.3M25.7 25.7L27.8 27.8M7.2 27.8L9.3 25.7M25.7 9.3L27.8 7.2" stroke="#33363F" strokeWidth="2.5" strokeLinecap="round"/>
-            </svg>
-            <span className="text-[17px] text-black">설정</span>
-          </div>
-        </aside>
-
-        {/* ================= 중앙 메인 카드 영역 (Figma: rectangle-4222) ================= */}
-        <main className="flex-1 p-8 flex justify-center items-start">
-          <div className="w-full max-w-[1195px] bg-white border border-[#7D8891] rounded-[10px] p-8 shadow-xs">
+    <div>
+          <div className="w-full max-w-[1195px] bg-white border border-[#7D8891] rounded-[10px] p-4 sm:p-8 shadow-xs">
             
             {/* 타이틀 (Figma: div9 + line-21) */}
             <div className="pb-4 border-b border-[#7D8891] mb-6">
-              <h1 className="text-[28px] font-bold text-black tracking-tight">새 게시글 작성</h1>
+              <button type="button" onClick={onHome} className="mb-3 text-sm text-slate-500">{editing ? '← 수정 취소' : '← 홈 피드로 돌아가기'}</button>
+              <h1 className="text-[28px] font-bold text-black tracking-tight">{editing ? '게시글 수정' : '새 게시글 작성'}</h1>
             </div>
 
+            {!editing && <p className="mb-5 text-xs text-slate-500">작성 중 내용은 홈과 상세 작성 화면 사이를 이동해도 유지됩니다.</p>}
             {/* 작성자 & 옵션 셀렉터 바 */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               {/* 유저 (Figma: user-cicrle-duotone2 + div10 + rectangle-4168) */}
@@ -228,7 +96,7 @@ export default function PostCreatePage() {
               </div>
 
               {/* 옵션 버튼 (타입 & 공개범위) */}
-              <div className="flex items-center gap-6">
+              <div className="flex flex-wrap items-center gap-4">
                 {/* 게시글 타입 (Figma: rectangle-4235 + div26 + fi-bs-angle-small-down) */}
                 <div className="relative flex items-center gap-2">
                   <span className="text-[15px] font-bold text-black">게시글 타입</span>
@@ -289,6 +157,7 @@ export default function PostCreatePage() {
             <div className="mb-4">
               <textarea
                 rows="5"
+                maxLength={500}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="무슨 일이 있었나요?"
@@ -336,7 +205,7 @@ export default function PostCreatePage() {
             {/* 첨부된 미디어 영역 (Figma: div22 + image-14) */}
             <div className="mb-6">
               <span className="text-[17px] font-bold text-black block mb-3">첨부된 미디어</span>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4">
                 {mediaList.map((media) => (
                   <div
                     key={media.id}
@@ -416,23 +285,25 @@ export default function PostCreatePage() {
             <div className="flex items-center justify-end gap-4 pt-4 border-t border-[#7D8891]/30">
               <button
                 type="button"
-                onClick={() => alert(`임시저장 완료 (타입: ${postType})`)}
+                onClick={onHome}
                 className="w-[140px] h-[46px] bg-white border-2 border-[#7D8891] rounded-[15px] text-[16px] font-bold text-black hover:bg-gray-50 cursor-pointer"
               >
-                임시저장
+                {editing ? '취소' : '닫기 · 내용 유지'}
               </button>
               <button
                 type="button"
-                onClick={() => alert(`게시글이 성공적으로 등록되었습니다!\n타입: ${postType}`)}
-                className="w-[140px] h-[46px] bg-[#33363F] text-white rounded-[15px] text-[16px] font-bold hover:bg-black cursor-pointer shadow-sm"
+                onClick={() => {
+                  onSubmit(draft);
+                }}
+                disabled={!content.trim()}
+                className="w-[140px] h-[46px] bg-[#33363F] text-white rounded-[15px] text-[16px] font-bold hover:bg-black cursor-pointer shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                게시하기
+                {editing ? '수정 저장' : '게시하기'}
               </button>
             </div>
 
           </div>
-        </main>
-      </div>
+
 
       {/* ================= 3. 팝업 모달 다이얼로그 (4종) ================= */}
       {activeModal && (
